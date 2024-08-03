@@ -12,8 +12,8 @@ class Constants {
   static const String error = "Something went wrong!";
   static const String success = "Success";
 
-  static const String appName = "Milk Farmer App";
-  static const String appbarTitle = "Milk Farmer App";
+  static const String appName = "Daily News Paper";
+  static const String appbarTitle = "Daily News Paper";
   static const String companyInfo = "Company Info";
   static const String aboutUs = "About Us";
   static const String legal = "Legal";

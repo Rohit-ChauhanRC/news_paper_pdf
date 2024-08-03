@@ -10,7 +10,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const CHECK = Routes.NEWSLIST;
+  static const CHECK = Routes.HOME;
 
   static final routes = [
     GetPage(

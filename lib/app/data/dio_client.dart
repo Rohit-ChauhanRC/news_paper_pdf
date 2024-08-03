@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:news_paper_pdf/app/modules/news_list/views/htmlP.dart';
 import '/app/constants/constants.dart';
 
 import 'models/news_model.dart';
@@ -24,7 +25,13 @@ class DioClient {
       // );
       return NewsModel.fromMap(response.data);
     } on DioException catch (e) {
-      return NewsModel();
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return NewsModel(
+        content: Content(rendered: htmlP),
+        id: 836,
+      );
     }
   }
 

@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -5,19 +9,26 @@ import './app/constants/constants.dart';
 
 import 'app/routes/app_pages.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:upgrader/upgrader.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  await FlutterDownloader.initialize(
-      debug:
-          true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl:
-          true // option: set to false to disable working with http links (default: false)
-      );
+
   await Upgrader.clearSavedSettings();
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyD2PKaXnyxn3gVFcYK_DViXogAEJmE7IyU",
+          authDomain: "dailynews-bbcb0.firebaseapp.com",
+          projectId: "dailynews-bbcb0",
+          storageBucket: "dailynews-bbcb0.appspot.com",
+          messagingSenderId: "334579430217",
+          appId: "1:334579430217:web:565378f63f3283bac1a098",
+          measurementId: "G-5N8LL15TH6"),
+    );
+  }
 
   runApp(
     App(),

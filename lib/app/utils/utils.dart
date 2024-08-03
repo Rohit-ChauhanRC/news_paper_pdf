@@ -27,7 +27,7 @@ class Utils {
         },
         title: title ?? Constants.success,
         content: Text(
-          message ?? Constants.error,
+          message,
           textAlign: TextAlign.center,
           maxLines: 6,
           style: TextStyle(

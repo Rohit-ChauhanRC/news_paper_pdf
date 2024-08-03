@@ -9,48 +9,38 @@ NewsModel newsModelFromMap(String str) => NewsModel.fromMap(json.decode(str));
 String newsModelToMap(NewsModel data) => json.encode(data.toMap());
 
 class NewsModel {
-  int? id;
+  int id;
 
-  Content? content;
-  Content? excerpt;
+  Content content;
 
   NewsModel({
-    this.id,
-    this.content,
-    this.excerpt,
+    required this.id,
+    required this.content,
   });
 
   factory NewsModel.fromMap(Map<String, dynamic> json) => NewsModel(
         id: json["id"],
-        content:
-            json["content"] == null ? null : Content.fromMap(json["content"]),
-        excerpt:
-            json["excerpt"] == null ? null : Content.fromMap(json["excerpt"]),
+        content: Content.fromMap(json["content"]),
       );
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "content": content?.toMap(),
-        "excerpt": excerpt?.toMap(),
+        "content": content.toMap(),
       };
 }
 
 class Content {
-  String? rendered;
-  bool? protected;
+  String rendered;
 
   Content({
-    this.rendered,
-    this.protected,
+    required this.rendered,
   });
 
   factory Content.fromMap(Map<String, dynamic> json) => Content(
         rendered: json["rendered"],
-        protected: json["protected"],
       );
 
   Map<String, dynamic> toMap() => {
         "rendered": rendered,
-        "protected": protected,
       };
 }

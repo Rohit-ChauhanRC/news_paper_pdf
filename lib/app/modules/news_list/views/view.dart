@@ -10,52 +10,75 @@ class NewsListPage extends GetView<NewsListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("New Paper")),
+      // appBar: AppBar(
+      //     // title: const Text("Economics"),
+      //     ),
       body: SafeArea(
-        child: Center(
-          child: InkWell(
-            onTap: () {
-              controller.pareHtml();
-            },
-            child: Container(
-              margin: const EdgeInsets.all(10),
-              height: Get.height * 0.8,
-              child: Obx(() => controller.article.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: controller.article.length,
-                      itemBuilder: (ctx, i) {
-                        NewsArticle data = controller.article[i];
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
+        child: Column(
+          children: [
+            Row(
+              // mainAxisAlignment: MainAxisAlignment,
+              children: [
+                const SizedBox(
+                  width: 20,
+                ),
+                InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: const Icon(Icons.arrow_back_ios_new_sharp)),
+                SizedBox(
+                  width: Get.width * 0.3,
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: Image.asset(
+                      "assets/images/daily.png",
+                      height: 60,
+                    )),
+              ],
+            ),
+            Center(
+              child: InkWell(
+                onTap: () {
+                  controller.pareHtml();
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(10),
+                  height: Get.height * 0.80,
+                  child: Obx(() => controller.article.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: controller.article.length,
+                          itemBuilder: (ctx, i) {
+                            NewsArticle data = controller.article[i];
+                            return ListTile(
+                              title: Text(data.title),
+                              onTap: () async {
+                                final Uri url = Uri.parse(data.link);
+                                await launchUrl(url);
+                              },
+                              trailing: Container(
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.black)),
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(20),
+                                  // border: Border.all(color: Colors.black),
+                                ),
                                 padding: const EdgeInsets.all(5),
                                 margin: const EdgeInsets.all(5),
-                                child: Text(data.title)),
-                            InkWell(
-                              onTap: () async {
-                                final Uri _url = Uri.parse(data.link);
-                                await launchUrl(_url);
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.green,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.black),
-                                  ),
-                                  padding: const EdgeInsets.all(5),
-                                  margin: const EdgeInsets.all(5),
-                                  child: Text("GO")),
-                            ),
-                          ],
-                        );
-                      })
-                  : const SizedBox()),
+                                child: const Text(
+                                  "Click Here",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                              subtitle: Text(controller.title),
+                            );
+                          })
+                      : const Center(child: CircularProgressIndicator())),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

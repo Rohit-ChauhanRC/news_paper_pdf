@@ -10,34 +10,18 @@ class NewsListPage extends GetView<NewsListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //     // title: const Text("Economics"),
-      //     ),
+      appBar: AppBar(
+        title: Text(controller.title),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              // mainAxisAlignment: MainAxisAlignment,
-              children: [
-                const SizedBox(
-                  width: 20,
-                ),
-                InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: const Icon(Icons.arrow_back_ios_new_sharp)),
-                SizedBox(
-                  width: Get.width * 0.3,
-                ),
-                Container(
-                    margin: const EdgeInsets.only(top: 20),
-                    child: Image.asset(
-                      "assets/images/daily.png",
-                      height: 60,
-                    )),
-              ],
-            ),
+            Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: Image.asset(
+                  "assets/images/daily.png",
+                  height: 60,
+                )),
             Center(
               child: InkWell(
                 onTap: () {

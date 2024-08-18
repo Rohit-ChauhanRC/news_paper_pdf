@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
+            VALUE "CompanyName", "com.codebyrc" "\0"
             VALUE "FileDescription", "news_paper_pdf" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "news_paper_pdf" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.codebyrc. All rights reserved." "\0"
             VALUE "OriginalFilename", "news_paper_pdf.exe" "\0"
             VALUE "ProductName", "news_paper_pdf" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

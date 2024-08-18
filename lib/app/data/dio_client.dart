@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:news_paper_pdf/app/modules/news_list/views/htmlP.dart';
 import '/app/constants/constants.dart';
 
 import 'models/news_model.dart';
@@ -29,7 +28,7 @@ class DioClient {
         print(e.toString());
       }
       return NewsModel(
-        content: Content(rendered: htmlP),
+        content: Content(rendered: ''),
         id: 836,
       );
     }

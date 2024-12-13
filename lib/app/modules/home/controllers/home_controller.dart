@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:news_paper_pdf/app/data/models/news_list_model.dart';
+import 'package:news_paper_pdf/app/modules/downloaded_folder/controllers/downloaded_folder_controller.dart';
 import 'package:news_paper_pdf/app/routes/app_pages.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -9,6 +10,9 @@ import 'package:flutter/services.dart';
 class HomeController extends GetxController {
   //
   final GlobalKey webViewKey = GlobalKey();
+
+  final DownloadedFolderController downloadedFolderController =
+      Get.put(DownloadedFolderController());
 
   static final box = GetStorage();
 
@@ -24,8 +28,14 @@ class HomeController extends GetxController {
   List<NewsListModel> get newsList => _newsList;
   set newsList(List<NewsListModel> lst) => _newsList.assignAll(lst);
 
+  final RxInt _currentPageIndex = 0.obs;
+  int get currentPageIndex => _currentPageIndex.value;
+  set currentPageIndex(int currentPageIndex) =>
+      _currentPageIndex.value = currentPageIndex;
+
   @override
   void onInit() async {
+    // downloadedFolderController.onInit();
     await loadNews();
     super.onInit();
   }

@@ -25,47 +25,66 @@ class HomeView extends GetView<HomeController> {
                   margin: const EdgeInsets.only(top: 20),
                   child: Image.asset(
                     "assets/images/daily.png",
-                    height: 60,
+                    height: 40,
+                    fit: BoxFit.cover,
                   )),
-              Container(
-                margin: const EdgeInsets.all(10),
-                height: Get.height * 0.75,
-                child: GridView(
-                  // itemCount: controller.newsList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 1,
-                  ),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  children: List.generate(controller.newsList.length, (i) {
-                    NewsListModel data = controller.newsList[i];
-                    return ListTile(
-                      onTap: () {
-                        controller.gotoDailyNewsPaper(
-                          id: data.code,
-                          name: data.title,
-                        );
-                      },
-                      title: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        child: Column(
-                          children: [
-                            Text(data.title),
-                            Image.asset(
-                              "assets/images/${data.imagePath}",
-                              fit: BoxFit.cover,
-                            ),
-                          ],
-                        ),
-                      ),
-                      // child: Text(data.title),
-                    );
-                  }),
-                ),
-              ),
+              Obx(() => controller.newsList.isNotEmpty
+                  ? Container(
+                      margin: const EdgeInsets.all(10),
+                      height: Get.height - 200,
+                      child: ListView.separated(
+                          separatorBuilder: (context, i) {
+                            return const Divider(
+                              color: Colors.grey,
+                              height: 2,
+                            );
+                          },
+                          shrinkWrap: true,
+                          itemCount: controller.newsList.length,
+                          itemBuilder: (ctx, i) {
+                            NewsListModel data = controller.newsList[i];
+                            return InkWell(
+                              onTap: () {
+                                controller.gotoDailyNewsPaper(
+                                  id: data.code,
+                                  name: data.title,
+                                );
+                              },
+                              child: Container(
+                                // height: 200,
+                                margin: const EdgeInsets.all(10),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      foregroundColor: Colors.black,
+                                      backgroundColor: Colors.grey,
+                                      radius: 30,
+                                      backgroundImage: Image.asset(
+                                        data.imagePath,
+                                        fit: BoxFit.contain,
+                                        color: Colors.black,
+                                      ).image,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Text(
+                                      data.title,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // child: Text(data.title),
+                            );
+                          }),
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    )),
             ],
           ),
         ),

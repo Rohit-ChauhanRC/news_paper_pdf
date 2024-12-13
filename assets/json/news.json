@@ -1,0 +1,117 @@
+[
+	{
+		"code": "23871",
+		"title": "Hindu Analysis",
+		"imagePath": "assets/images/the_hindu.png"
+	},
+	{
+		"code": "36926",
+		"title": "Times of India",
+		"imagePath": "assets/images/times_of_india.png"
+	},
+	{
+		"code": "836",
+		"title": "Economic Times",
+		"imagePath": "assets/images/et.png"
+	},
+	{
+		"code": "832",
+		"title": "Financial Express",
+		"imagePath": "assets/images/financial_express.jpeg"
+	},
+	{
+		"code": "826",
+		"title": "The Telegraph",
+		"imagePath": "assets/images/the_telegraph.png"
+	},
+	{
+		"code": "830",
+		"title": "Deccan Chronicle",
+		"imagePath": "assets/images/deccan_chronical.jpeg"
+	},
+	{
+		"code": "4283",
+		"title": "The Statesman",
+		"imagePath": "assets/images/the_stateman.png"
+	},
+	{
+		"code": "824",
+		"title": "The Tribune",
+		"imagePath": "assets/images/the_tribune.jpeg"
+	},
+	{
+		"code": "4291",
+		"title": "The Asian Age",
+		"imagePath": "assets/images/the_asian_age.jpeg"
+	},
+	{
+		"code": "4279",
+		"title": "The Pioneer",
+		"imagePath": "assets/images/pioneer.jpeg"
+	},
+	{
+		"code": "35498",
+		"title": "Free Press Journal",
+		"imagePath": "assets/images/fress_press.png"
+	},
+	{
+		"code": "35862",
+		"title": "दैनिक जागरण",
+		"imagePath": "assets/images/danik_jagran.png"
+	},
+	{
+		"code": "873",
+		"title": "जनसत्ता",
+		"imagePath": "assets/images/jansatta.png"
+	},
+	{
+		"code": "869",
+		"title": "राजस्थान पत्रिका",
+		"imagePath": "assets/images/rajasthan.png"
+	},
+	{
+		"code": "4294",
+		"title": "नवभारत टाइम्स",
+		"imagePath": "assets/images/navbharat.png"
+	},
+	{
+		"code": "871",
+		"title": "प्रभात खबर",
+		"imagePath": "assets/images/parbhat.png"
+	},
+	{
+		"code": "859",
+		"title": "अमर उजाला",
+		"imagePath": "assets/images/amar.jpeg"
+	},
+	{
+		"code": "4314",
+		"title": "हरी भूमि",
+		"imagePath": "assets/images/hari.png"
+	},
+	{
+		"code": "4298",
+		"title": "राष्ट्रीय सहारा",
+		"imagePath": "assets/images/rastriya.jpeg"
+	},
+	{
+		"code": "4306",
+		"title": "दैनिक नवज्योति",
+		"imagePath": "assets/images/danik_navjyoti.png"
+	},
+	{
+		"code": "857",
+		"title": "दैनिक भास्कर",
+		"imagePath": "assets/images/danik_bhaskar.jpeg"
+	},
+	{
+		"code": "4301",
+		"title": "लोकसत्ता",
+		"imagePath": "assets/images/loksatta.png"
+	},
+	{
+		"code": "4296",
+		"title": "पंजाब केसरी",
+		"imagePath": "assets/images/punjab.png"
+	}
+]

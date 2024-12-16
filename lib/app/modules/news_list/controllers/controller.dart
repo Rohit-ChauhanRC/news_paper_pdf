@@ -6,6 +6,7 @@ import 'package:news_paper_pdf/app/data/dio_client.dart';
 import 'package:news_paper_pdf/app/data/folder_creation.dart';
 import 'package:news_paper_pdf/app/data/models/news_article.dart';
 import 'package:html/parser.dart' as html_parser;
+import 'package:news_paper_pdf/app/routes/app_pages.dart';
 // import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -85,6 +86,7 @@ class NewsListController extends GetxController {
         subFolder: folder,
       );
       isDownloading = false;
+      Get.toNamed(Routes.SHOW_PDF, arguments: apth);
       print(apth);
     } catch (e) {
       isDownloading = false;

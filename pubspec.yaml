@@ -16,9 +16,11 @@ dependencies:
   html:
   upgrader:
   url_launcher:
-  equatable: ^2.0.7
-  path_provider: ^2.0.11
-  http: ^1.2.2
+  equatable: 
+  path_provider: 
+  http: 
+  permission_handler: 
+  flutter_pdfview: 
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

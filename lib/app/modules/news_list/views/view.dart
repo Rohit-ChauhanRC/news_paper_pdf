@@ -10,66 +10,120 @@ class NewsListPage extends GetView<NewsListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controller.title),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Image.asset(
+            "assets/images/daily.png",
+            height: 30,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Column(
           children: [
-            Container(
-                margin: const EdgeInsets.only(top: 20),
-                child: Image.asset(
-                  "assets/images/daily.png",
-                  height: 40,
-                )),
-            Center(
-              child: InkWell(
-                onTap: () {
-                  controller.pareHtml();
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(10),
-                  height: Get.height * 0.70,
-                  child: Obx(() => controller.article.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: controller.article.length,
-                          itemBuilder: (ctx, i) {
-                            NewsArticle data = controller.article[i];
-                            return ListTile(
-                              title: Text(data.title),
-                              onTap: () async {
-                                // final Uri url = Uri.parse(data.link);
-                                // await launchUrl(url);
-                                controller.downloadFile(
-                                  controller
-                                      .convertToDirectDownloadLink(data.link),
-                                  data.title,
-                                  controller.title,
-                                );
-                              },
-                              trailing: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.circular(20),
-                                  // border: Border.all(color: Colors.black),
-                                ),
-                                padding: const EdgeInsets.all(5),
-                                margin: const EdgeInsets.all(5),
-                                child: const Text(
-                                  "Click Here",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16),
-                                ),
-                              ),
-                              subtitle: Text(controller.title),
-                            );
-                          })
-                      : const Center(child: CircularProgressIndicator())),
+            // Logo
+
+            Obx(
+              () => Text(
+                controller.title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                  decorationStyle: TextDecorationStyle.wavy,
+                  decorationColor: Colors.amber,
+                  decorationThickness: 2,
                 ),
               ),
             ),
+
+            // Article list
+            Expanded(
+              child: Obx(() {
+                if (controller.article.isEmpty && !controller.isFetching) {
+                  return const Center(
+                    child: Text(
+                      "No articles available today",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+                if (controller.article.isEmpty && controller.isFetching) {
+                  return const Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                }
+
+                return RefreshIndicator(
+                  onRefresh: controller.parseHtmlAndSave,
+                  child: ListView.builder(
+                    itemCount: controller.article.length,
+                    itemBuilder: (ctx, i) {
+                      NewsArticle data = controller.article[i];
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.all(12),
+                          title: Text(
+                            data.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          subtitle: Text(controller.title),
+                          trailing: Obx(() {
+                            return controller.isDownloading
+                                ? const SizedBox.shrink()
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 6),
+                                    child: const Text(
+                                      "Download",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  );
+                          }),
+                          onTap: !controller.isDownloading
+                              ? () async {
+                                  await controller.downloadFile(
+                                    controller
+                                        .convertToDirectDownloadLink(data.link),
+                                    data.title,
+                                    controller.title,
+                                  );
+                                }
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+            ),
+
+            // Bottom progress indicator
             Obx(
               () => controller.isDownloading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: LinearProgressIndicator(),
+                    )
                   : const SizedBox(),
             ),
           ],

@@ -11,19 +11,36 @@ class DownloadedFilesView extends GetView<DownloadedFilesController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Downloaded Files'),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Image.asset(
+              "assets/images/daily.png",
+              height: 30,
+            ),
+          ),
           centerTitle: true,
         ),
         body: Obx(
-          () => controller.pdfFiles.isEmpty
-              ? const Center(child: Text("No PDF files found in the directory"))
-              : Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Base Path: ${controller.folderPath}"),
-                    ),
-                    Expanded(
+          () => Column(
+            children: [
+              Obx(
+                () => Text(
+                  controller.folderPath,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                    decorationStyle: TextDecorationStyle.wavy,
+                    decorationColor: Colors.amber,
+                    decorationThickness: 2,
+                  ),
+                ),
+              ),
+              controller.pdfFiles.isEmpty
+                  ? const Center(
+                      child: Text("No PDF files found in the directory"))
+                  : Expanded(
                       child: ListView.builder(
                         itemCount: controller.pdfFiles.length,
                         itemBuilder: (context, index) {
@@ -49,8 +66,8 @@ class DownloadedFilesView extends GetView<DownloadedFilesController> {
                         },
                       ),
                     ),
-                  ],
-                ),
+            ],
+          ),
         ));
   }
 }

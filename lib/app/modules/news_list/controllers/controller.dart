@@ -1,74 +1,90 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-// import 'package:news_paper_pdf/app/constants/constants.dart';
+import 'package:intl/intl.dart';
+import 'package:html/parser.dart' as html_parser;
 import 'package:news_paper_pdf/app/data/dio_client.dart';
 import 'package:news_paper_pdf/app/data/folder_creation.dart';
 import 'package:news_paper_pdf/app/data/models/news_article.dart';
-import 'package:html/parser.dart' as html_parser;
 import 'package:news_paper_pdf/app/routes/app_pages.dart';
-// import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+import 'package:news_paper_pdf/app/utils/connectivity_service.dart';
+import 'package:news_paper_pdf/app/utils/database_helper.dart';
 
 class NewsListController extends GetxController {
-  //
-
   final FolderCreation folderCreation = Get.find<FolderCreation>();
+  final connectivityService = Get.find<ConnectivityService>();
+  final dbHelper = DatabaseHelper();
 
   final RxList<NewsArticle> _article = <NewsArticle>[].obs;
   List<NewsArticle> get article => _article;
-  set article(List<NewsArticle> lst) => _article.assignAll(lst);
 
   final RxString _title = "".obs;
   String get title => _title.value;
-  set title(String str) => _title.value = str;
 
   final RxBool _isDownloading = false.obs;
   bool get isDownloading => _isDownloading.value;
   set isDownloading(bool b) => _isDownloading.value = b;
 
   String progress = "";
+  String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  final RxBool _isFetching = false.obs;
+  bool get isFetching => _isFetching.value;
+  set isFetching(bool b) => _isFetching.value = b;
 
   @override
   void onInit() async {
     super.onInit();
-    title = Get.arguments[1];
-    await pareHtml();
-    // folderCreation.createAppFolderStructure();
+    _title.value = Get.arguments[1];
+    await getArticleFromDb();
+    // Load from DB first
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _article.close();
-    _title.close();
+  Future<void> getArticleFromDb() async {
+    isFetching = true;
+    final cached =
+        await dbHelper.getArticlesByDateAndTitle(date: today, title: title);
+    if (cached.isNotEmpty) {
+      _article.assignAll(cached);
+    } else {
+      await parseHtmlAndSave();
+    }
+    isFetching = false;
   }
 
-  Future<void> pareHtml() async {
-    article.assignAll([]);
+  Future<void> parseHtmlAndSave() async {
+    _article.assignAll([]);
 
     await DioClient()
         .getEconomicNews(endPointApi: Get.arguments[0])
-        .then((onValue) {
+        .then((onValue) async {
       final document = html_parser.parseFragment(onValue.content.rendered);
+      final pTags = document.querySelectorAll("p");
 
-      final aancP = document.querySelectorAll("p");
+      List<NewsArticle> temp = [];
 
-      for (var eq in aancP) {
-        final anc = eq.querySelectorAll("a");
-        for (var qq in anc) {
-          final href = qq.attributes['href'];
-          if (href!.startsWith("https://drive.google.com")) {
-            article.add(NewsArticle(
-                link: href, title: eq.text.replaceAll("Download Now", "")));
-            if (kDebugMode) {
-              print("${eq.text.replaceAll("Download Now", "")} -- $href");
-            }
+      for (var p in pTags) {
+        final anchors = p.querySelectorAll("a");
+        for (var a in anchors) {
+          final href = a.attributes['href'];
+          if (href != null && href.startsWith("https://drive.google.com")) {
+            final article = NewsArticle(
+              link: href,
+              title: p.text.replaceAll("Download Now", ""),
+            );
+            temp.add(article);
+            await dbHelper.insertArticle(article, today);
           }
         }
       }
+
+      // await dbHelper.clearOldArticles(today);
+      _article.assignAll(temp);
     });
   }
+
+  // keep your downloadFile() and convertToDirectDownloadLink() here
 
   Future<void> downloadFile(fileUrl, String title, folder) async {
     try {

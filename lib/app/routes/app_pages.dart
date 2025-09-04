@@ -2,8 +2,7 @@ import 'package:get/get.dart';
 
 import '../modules/downloaded_files/bindings/downloaded_files_binding.dart';
 import '../modules/downloaded_files/views/downloaded_files_view.dart';
-import '../modules/downloaded_folder/bindings/downloaded_folder_binding.dart';
-import '../modules/downloaded_folder/views/downloaded_folder_view.dart';
+
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/news_list/bindings/bindings.dart';
@@ -33,11 +32,6 @@ class AppPages {
       name: _Paths.DOWNLOADED_FILES,
       page: () => const DownloadedFilesView(),
       binding: DownloadedFilesBinding(),
-    ),
-    GetPage(
-      name: _Paths.DOWNLOADED_FOLDER,
-      page: () => const DownloadedFolderView(),
-      binding: DownloadedFolderBinding(),
     ),
     GetPage(
       name: _Paths.SHOW_PDF,

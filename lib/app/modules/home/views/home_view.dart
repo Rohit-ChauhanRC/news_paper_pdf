@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:news_paper_pdf/app/data/models/news_list_model.dart';
-import 'package:news_paper_pdf/app/modules/downloaded_folder/views/downloaded_folder_view.dart';
-import 'package:news_paper_pdf/app/routes/app_pages.dart';
+import 'package:news_paper_pdf/app/modules/home/widgets/downloaded_folders.dart';
 import 'package:upgrader/upgrader.dart';
 
 import '../controllers/home_controller.dart';
@@ -30,22 +29,17 @@ class HomeView extends GetView<HomeController> {
               showLater: false,
               canDismissDialog: false,
               showReleaseNotes: true,
-              upgrader: Upgrader(),
+              upgrader:
+                  Upgrader(durationUntilAlertAgain: const Duration(seconds: 1)),
               child: Column(
                 children: [
                   const SizedBox(
                     height: 20,
                   ),
-                  // InkWell(
-                  //   onTap: () {
-                  //     Get.toNamed(Routes.DOWNLOADED_FOLDER);
-                  //   },
-                  //   child: const Text("Downloaded"),
-                  // ),
                   Obx(() => controller.newsList.isNotEmpty
                       ? Container(
                           margin: const EdgeInsets.all(10),
-                          height: Get.height * 0.69,
+                          height: Get.height * 0.7,
                           child: ListView.separated(
                               separatorBuilder: (context, i) {
                                 return const Divider(
@@ -102,7 +96,9 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-            const DownloadedFolderView(),
+            DownloadedFolders(
+              controller: controller,
+            ),
           ][controller.currentPageIndex],
           bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(

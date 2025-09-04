@@ -1,18 +1,20 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:news_paper_pdf/app/data/folder_creation.dart';
 import 'package:news_paper_pdf/app/data/models/news_list_model.dart';
-import 'package:news_paper_pdf/app/modules/downloaded_folder/controllers/downloaded_folder_controller.dart';
 import 'package:news_paper_pdf/app/routes/app_pages.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:news_paper_pdf/app/utils/connectivity_service.dart';
 
 class HomeController extends GetxController {
   //
   final GlobalKey webViewKey = GlobalKey();
 
-  final DownloadedFolderController downloadedFolderController =
-      Get.put(DownloadedFolderController());
+  final folder = Get.find<FolderCreation>();
+
+  final connectivityService = Get.find<ConnectivityService>();
 
   static final box = GetStorage();
 
@@ -33,9 +35,38 @@ class HomeController extends GetxController {
   set currentPageIndex(int currentPageIndex) =>
       _currentPageIndex.value = currentPageIndex;
 
+  final List<String> folderNames = [
+    'Hindu Analysis',
+    'Times of India',
+    'Economic Times',
+    'Financial Express',
+    'The Telegraph',
+    'Deccan Chronicle',
+    'The Statesman',
+    'The Tribune',
+    'The Asian Age',
+    'The Pioneer',
+    'Free Press Journal',
+    'दैनिक जागरण',
+    'जनसत्ता',
+    'राजस्थान पत्रिका',
+    'नवभारत टाइम्स',
+    'प्रभात खबर',
+    'अमर उजाला',
+    'हरी भूमि',
+    'राष्ट्रीय सहारा',
+    'दैनिक नवज्योति',
+    'दैनिक भास्कर',
+    'लोकसत्ता',
+    'पंजाब केसरी',
+  ];
+
   @override
   void onInit() async {
     // downloadedFolderController.onInit();
+
+    await folder.createAppFolderStructure();
+
     await loadNews();
     super.onInit();
   }
